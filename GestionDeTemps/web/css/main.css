@@ -1,0 +1,46 @@
+/* 
+    Created on : 25 oct. 2018, 13:56:49
+    Author     : Delph
+*/
+
+
+body {
+/*  To have an image in the background/Pour avoir une image en fond d'écran*/
+    background-image: url("/GestionDeTemps/web/images/fonEcr.jpg");
+/*  The background-repeat property defines how images used in the background are repeated. 
+    no-repeat: no repetition of the image (so it is possible that the whole area is not covered by the image)/
+    La propriété background-repeat définit la façon dont les images utilisées en arrière-plan sont répétées. 
+    no-repeat: aucune répétition de l'image (il est donc possible que toute la zone ne soit pas couverte par l'image).*/
+    background-repeat: no-repeat;
+/*  The background-position property allows you to define the initial position, relative to the origin defined 
+    by background-origin for each background image./
+    La propriété background-position permet de définir la position initiale, relative à l'origine définie 
+    par background-origin pour chaque image d'arrière-plan.*/
+    background-position: center;
+/*  The CSS background-size property defines the size of the background images for the element. 
+    The size of the image can be constrained, complete or partial in order to maintain its proportions. 
+    With "cover" the image is resized to be as large as possible and to maintain its proportions. 
+    The image covers the entire width or height of the container and the protruding parts are trimmed 
+    if the proportions of the container are different (it covers the entire background)./
+    La propriété CSS background-size définit la taille des images d'arrière-plan pour l'élément. 
+    La taille de l'image peut être contrainte, complète ou partielle afin de conserver ses proportions. 
+    Avec "cover" l'image est redimensionnée pour être aussi grande que possible et pour conserver ses proportions. 
+    L'image couvre toute la largeur ou la hauteur du conteneur et les parties qui dépassent sont rognées 
+    si les proportions du conteneur sont différentes (ça couvre entièrement l'arrière-plan enfin en théorie 
+    car il y a un souci sur a page de login).*/
+    background-size: cover;
+/*  The background-attachment property sets whether a background image scrolls with the rest of the page, or is fixed.
+    Here is fixed./
+    La background-attachmentpropriété définit si une image d'arrière-plan défile avec le reste de la page ou est fixe.
+    Ici il est fixe. */
+    background-attachment: fixed;
+}
+/*To reduce some tables/Pour réduire certains tableaux.*/
+#loginSuccess, #summaryPage, #interventionIndexPage  {
+    width:80%;
+}
+
+/*To have a margin at the top/Pour avoir une marge en haut*/
+.container, p, h3, h4, h5, a, input, table{
+    margin-top: 15px;
+}
