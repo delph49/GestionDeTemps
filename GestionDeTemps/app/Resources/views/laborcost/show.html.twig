@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h4>{{ 'Labor cost'| trans }}</h4>
+        <p>Pour actif: 1 pour Oui et 0 ou rien pour Non.</p>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>{{ 'Kind labor cost'| trans }}</th>
+                    <td>{{ laborCost.kindLaborCost }}</td>
+                </tr>            
+                <tr>
+                    <th>{{ 'Labor cost'| trans }}</th>
+                    <td>{{ laborCost.laborCost }}</td>
+                </tr>
+                <tr>
+                    <th>{{ 'Info active labor cost'| trans }}</th>
+                    <td>{{ laborCost.infoActiveLaborCost }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Pour actif: 1 pour Oui et 0 ou rien pour Non.</p>
+        <a class="btn btn-success" href="{{ path('laborcost_edit', { 'id': laborCost.id }) }}">{{ 'Edit'| trans }}</a> 
+        <p>Attention la suppression d'un coût M.O. ne sera pas possible s'il est lié à une ou plusieurs interventions. Dans ce cas, désactivez-le, ainsi il n'apparaîtra plus dans les choix lors de la création d'une intervention, mais sera toujours accessible pour les tableaux statistiques.</p>
+        {{ form_start(delete_form) }}
+        <input class="btn btn-success" type="submit" value="{{ 'Delete'| trans }}">
+        {{ form_end(delete_form) }}
+        <a class="btn btn-success" href="{{ path('laborcost_index') }}">{{ 'Back to the list'| trans }}</a>
+    </div>
+
+{% endblock %}

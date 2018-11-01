@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h4>{{ 'Places list'|trans }}</h4>
+        <a class="btn btn-success" href="{{ path('place_new') }}">{{ 'Create a new place'|trans }}</a>
+        <p>Pour actif: 1 pour Oui et 0 ou rien pour Non.</p>
+        <table id="placeIndex" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>{{ 'Title place'|trans }}</th>
+                    <th>{{ 'Info active place'|trans }}</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for place in places %}
+                    <tr>
+                        <td>{{ place.titlePlace }}</td>
+                        <td>{{ place.infoActivePlace }}</td>
+                        <td>
+                            <a href="{{ path('place_show', { 'id': place.id }) }}">{{ 'Show'|trans }}</a>
+                            ou
+                            <a href="{{ path('place_edit', { 'id': place.id }) }}">{{ 'Edit'|trans }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('#placeIndex').DataTable({
+        {# To have the buttons search (f), length changing input control (l), info (i) and next-previous (p). (t) table. /
+        Pour avoir les boutons CSV, PDF, Imprimer, recherche (f), nombre de lignes par page (l), "Affichage de l'élement _START_ à _END_ sur _TOTAL_ éléments" (i)
+        et suivant-précédent (p). Le (t) c'est le tableau. #}
+                    dom: "lftrip",
+        {# To deactivate the search function on column 11, 12, 13 and 14/ Pour désactiver la fonction rechercher sur les colonnes 11, 12, 13 et 14 #}
+                    "aoColumnDefs": [
+                        {"bSearchable": false, "aTargets": [1, 2]}],
+        {# To have the dates sort descending when you arrive on the page/ Pour avoir les dates trier de façon descendante quand on arrive sur la page #}
+                    "order": [0, 'asc'],
+        {# To have 50 lines per page in the table/Pour avoir 50 lignes par page dans le tableau #}
+                    pageLength: 50,
+        {# To have the traduction in French/ Pour avoir la traduction en français #}
+                    language: {
+                        processing: "Traitement en cours...",
+                        search: "Rechercher:",
+                        lengthMenu: "Afficher _MENU_ éléments",
+                        info: "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+                        infoEmpty: "Affichage de l'élément 0 à 0 sur 0 éléments",
+                        infoFiltered: "(filtré de _MAX_ éléments au total)",
+                        infoPostFix: "",
+                        loadingRecords: "Chargement en cours...",
+                        zeroRecords: "Aucun élément à afficher",
+                        emptyTable: "Aucune donnée disponible dans le tableau",
+                        paginate: {
+                            first: "Premier",
+                            previous: "Précédent",
+                            next: "Suivant",
+                            last: "Dernier"
+                        },
+                        aria: {
+                            sortAscending: ": activer pour trier la colonne par ordre croissant",
+                            sortDescending: ": activer pour trier la colonne par ordre décroissant"
+                        }
+                    }
+                });
+            });
+    </script>
+{% endblock %}

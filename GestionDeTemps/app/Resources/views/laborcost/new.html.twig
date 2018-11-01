@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h4>{{ 'Labor cost creation'| trans }}</h4>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input class="btn btn-success" type="submit" value="{{ 'Create'| trans }}" />
+        {{ form_end(form) }}
+        <a class="btn btn-success" href="{{ path('laborcost_index') }}">{{ 'Back to the list'| trans }}</a>   
+    </div>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+laborcost_index:
+    path:     /
+    defaults: { _controller: "GestionBundle:LaborCost:index" }
+    methods:  GET
+
+laborcost_show:
+    path:     /{id}/show
+    defaults: { _controller: "GestionBundle:LaborCost:show" }
+    methods:  GET
+
+laborcost_new:
+    path:     /new
+    defaults: { _controller: "GestionBundle:LaborCost:new" }
+    methods:  [GET, POST]
+
+laborcost_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "GestionBundle:LaborCost:edit" }
+    methods:  [GET, POST]
+
+laborcost_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "GestionBundle:LaborCost:delete" }
+    methods:  DELETE

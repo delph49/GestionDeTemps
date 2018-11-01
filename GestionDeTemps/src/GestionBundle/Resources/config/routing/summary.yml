@@ -1,0 +1,4 @@
+summary_table:
+    path:     /
+    defaults: { _controller: GestionBundle:Intervention:summary }
+    methods:  [GET, POST]

@@ -1,0 +1,4 @@
+stats_place_kind_work_week:
+    path:     /
+    defaults: { _controller: GestionBundle:Intervention:placeKindWorkWeek }
+    methods:  [GET, POST]

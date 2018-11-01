@@ -1,0 +1,24 @@
+technician_index:
+    path:     /
+    defaults: { _controller: "GestionBundle:Technician:index" }
+    methods:  GET
+
+technician_show:
+    path:     /{id}/show
+    defaults: { _controller: "GestionBundle:Technician:show" }
+    methods:  GET
+
+technician_new:
+    path:     /new
+    defaults: { _controller: "GestionBundle:Technician:new" }
+    methods:  [GET, POST]
+
+technician_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "GestionBundle:Technician:edit" }
+    methods:  [GET, POST]
+
+technician_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "GestionBundle:Technician:delete" }
+    methods:  DELETE

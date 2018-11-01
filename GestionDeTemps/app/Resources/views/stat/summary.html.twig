@@ -1,0 +1,197 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid" id="summaryPage">
+        <h4>{{'Summary table'|trans}}</h4>
+        <p>Attention ce tableau contient toutes les années, si vous voulez une année en particulier, mettez là dans la barre de recherche.</p>
+        <p>Le bouton "Imprimer" ne fonctionne pas pour Edge, veuillez passer par PDF.</p>
+        <table id="summary"  class="table table-striped table-sm table-bordered">
+            <thead>
+                <tr>
+                    <th>{{'Intervention date'|trans}}</th>
+                    <th>{{'Week number'|trans}}</th>
+                    <th>{{"Technician's lastname"|trans}}</th>
+                    <th>{{"Technician's firstname"|trans}}</th>
+                    <th>{{'Trades'|trans}}</th>
+                    <th>{{'Type of Intervention'|trans}}</th>
+                    <th>{{'Kind Work'|trans}}</th>
+                    <th>{{'Group Place'|trans}}</th>
+                    <th>{{'Place'|trans}}</th>
+                    <th>{{'Number hours'|trans}}</th>
+                    <th>{{'Kind labor cost'|trans}}</th>
+                    <th>{{'Labor Cost'|trans}}</th>
+                    <th>{{'Total labor cost'|trans}}</th>
+                    <th>{{'Material Cost'|trans}}</th>
+                    <th>{{'Comments'|trans}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for intervention in interventions %}
+                    <tr>
+                        {# To have the good format of date |date('d-m-Y')/our avoir le bon format de date |date('d-m-Y') #}
+                        <td>{% if intervention.interventionDate %}{{ intervention.interventionDate|date('d-m-Y') }}{% endif %}</td>
+                        <td>{{ intervention.weekNumber }}</td>
+                        <td>{{ intervention.lastName }}</td>
+                        <td>{{ intervention.firstName }}</td>
+                        <td>{{ intervention.trades }}</td>
+                        <td>{{ intervention.titleTypeIntervention }}</td>
+                        <td>{{ intervention.titleKindWork }}</td>
+                        <td>{{ intervention.titleGroup }}</td>
+                        <td>{{ intervention.titlePlace }}</td>
+                        <td>{{ intervention.numberHours }}</td>
+                        <td>{{ intervention.kindLaborCost }}</td>
+                        <td>{{ intervention.laborCostHour }}</td>                        
+                        <td>{{intervention.totalLaborCost}}</td>
+                        <td>{{ intervention.totalMaterialCost }}</td>
+                        <td>{{ intervention.comments }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Totaux</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>  
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+        {# For the sorting to be done on the French date and not on the American date/
+         Pour que le tri se fasse sur la date française et non pas sur la date américaine #}
+                 $.fn.dataTable.moment('DD-MM-YYYY');
+                 $('#summary').DataTable({
+        {# To have the sums at the footer of the table's columns/Pour avoir les sommes en bas des colonnes du tableau #}
+                    "footerCallback": function () {
+                        var api = this.api();
+        {# Remove the formatting to get integer data for summation/Supprimer le formatage pour obtenir des données entières pour la somme #}
+                        var intVal = function (i) {
+                            return typeof i === 'string' ?
+                                    i.replace(/[\$,]/g, '') * 1 :
+                                    typeof i === 'number' ?
+                                    i : 0;
+                        };
+        {# Total hours over the search/ Coût total des heures sur la recherche #} 
+                        totalHours = api
+                                .column(9, {search: 'applied'})
+                                .data()
+                                .reduce(function (a, b) {
+                                    return intVal(a) + intVal(b);
+                                }, 0);
+        {# Update footer. * 1000) / 1000" To round to 3 digits after the decimal point and display it at the footer of the board/
+        Met à jour le footer."* 1000) / 1000" Pour arrondir à 3 chiffres après la virgule et l'afficher au pied du tableau #}
+                        $(api.column(9).footer()).html(
+                                Math.round(totalHours * 1000) / 1000);
+        {# Total labor cost over the search/ Coût total de la main d'œuvre sur la recherche #}
+                        totalLaborCost = api
+                                .column(12, {search: 'applied'})
+                                .data()
+                                .reduce(function (a, b) {
+                                    return intVal(a) + intVal(b);
+                                }, 0);
+        {# Update footer. * 10000) / 10000" To round to 4 digits after the decimal point and display it at the footer of the board/
+        Met à jour le footer."* 10000) / 10000" Pour arrondir à 4 chiffres après la virgule et l'afficher au pied du tableau #}
+                        $(api.column(12).footer()).html(
+                                Math.round(totalLaborCost * 10000) / 10000);
+        {# Total material cost over the search/ Coût total des matériaux sur la recherche #} 
+                        totalMaterialCost = api
+                                .column(13, {search: 'applied'})
+                                .data()
+                                .reduce(function (a, b) {
+                                    return (intVal(a) + intVal(b));
+                                }, 0);
+        {# Update footer. * 1000) / 1000" To round to 3 digits after the decimal point and display it at the footer of the board/
+        Met à jour le footer."* 1000) / 1000" Pour arrondir à 3 chiffres après la virgule et l'afficher au pied du tableau #}
+                        $(api.column(13).footer()).html(
+                                Math.round(totalMaterialCost * 1000) / 1000);
+                    },
+        {# To have the buttons csv, pdf, print, search (f), length changing input control (l), info (i) and next-previous (p). (t) table. (B) it's the buttons /
+        Pour avoir les boutons CSV, PDF, Imprimer, recherche (f), nombre de lignes par page (l), "Affichage de l'élement _START_ à _END_ sur _TOTAL_ éléments" (i)
+        et suivant-précédent (p). Le (t) c'est le tableau. (B) ce sont les boutons #}
+                    dom: "Blftrip",
+                    buttons: [{
+                            extend: 'csv',
+        {# To be able to print the totals at the footer of the table/Pour pouvoir imprimer les totaux qui sont au pied du tableau #}
+                            footer: true,
+        {# To have UTF-8 in the CSV/Pour avoir UTF-8 dans le CSV #}
+                            charset: 'UTF-8',
+                            fieldSeparator: ';',
+                            bom: true}, {
+                            extend: 'pdf',
+                            footer: true,
+        {# To have the PDF with landscape orientation/ Pour avoir le PDF avec une orientation paysage #}
+                            orientation: 'landscape',
+                            pageSize: 'LEGAL'
+                        }, {
+                            extend: 'print',
+                            footer: true,
+                            text: 'Imprimer',
+        {# function to have the impression in landscape/ fonction pour avoir l'impression en paysage #}
+                            customize: function (win)
+                            {
+                                var css = '@page { size: landscape; }',
+                                        head = win.document.head || win.document.getElementsByTagName('head')[0],
+                                        style = win.document.createElement('style');
+                                style.type = 'text/css';
+                                style.media = 'print';
+                                if (style.styleSheet)
+                                {
+                                    style.styleSheet.cssText = css;
+                                } else
+                                {
+                                    style.appendChild(win.document.createTextNode(css));
+                                }
+                                head.appendChild(style);
+                            }}],
+        {# To deactivate the search function on column 11, 12, 13 and 14/ Pour désactiver la fonction rechercher sur les colonnes 11, 12, 13 et 14 #}
+                    "aoColumnDefs": [
+                        {"bSearchable": false, "aTargets": [9, 11, 12, 13, 14]}],
+        {# To have the dates sort descending when you arrive on the page/ Pour avoir les dates trier de façon descendante quand on arrive sur la page #}
+                    "order": [0, 'desc'],
+        {# To have 50 lines per page in the table/Pour avoir 50 lignes par page dans le tableau #}
+                    pageLength: 50,
+        {# To have the traduction in French/ Pour avoir la traduction en français #}
+                    language: {
+                        processing: "Traitement en cours...",
+                        search: "Rechercher:",
+                        lengthMenu: "Afficher _MENU_ éléments",
+                        info: "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+                        infoEmpty: "Affichage de l'élément 0 à 0 sur 0 éléments",
+                        infoFiltered: "(filtré de _MAX_ éléments au total)",
+                        infoPostFix: "",
+                        loadingRecords: "Chargement en cours...",
+                        zeroRecords: "Aucun élément à afficher",
+                        emptyTable: "Aucune donnée disponible dans le tableau",
+                        paginate: {
+                            first: "Premier",
+                            previous: "Précédent",
+                            next: "Suivant",
+                            last: "Dernier"
+                        },
+                        aria: {
+                            sortAscending: ": activer pour trier la colonne par ordre croissant",
+                            sortDescending: ": activer pour trier la colonne par ordre décroissant"
+                        }
+                    }
+                });
+            });
+    </script>
+{% endblock %}
+

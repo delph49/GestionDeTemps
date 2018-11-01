@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <br/>
+    <h4>{{ 'Access Denied'|trans }}</h4>
+    <br/>
+    <p>Accès interdit </p>
+    <p>Vous n'avez pas le droit d'accèder à cette page</p>
+    <br/><br/>
+    <a href="{{ path('homepage') }}">{{ 'Return to the homepage'|trans }}</a>
+{% endblock %}

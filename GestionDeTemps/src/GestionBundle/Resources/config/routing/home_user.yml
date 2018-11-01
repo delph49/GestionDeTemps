@@ -1,0 +1,4 @@
+home_user:
+    path:     /
+    defaults: { _controller: GestionBundle:Default:userPage }
+    methods:  [GET, POST]

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h4>{{ 'Kind work'| trans }}</h4>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>{{ 'Title kind work'| trans }}</th>
+                    <td>{{ kindWork.titleKindWork }}</td>
+                </tr>
+                <tr>
+                    <th>{{ 'Info active kind work'| trans }}</th>
+                    <td>{{ kindWork.infoActiveKindWork }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Pour actif: 1 pour Oui et 0 ou rien pour Non.</p>
+        <a class="btn btn-success" href="{{ path('kindwork_edit', { 'id': kindWork.id }) }}">{{ 'Edit'| trans }}</a>
+        {{ form_start(delete_form) }}
+        <input class="btn btn-success" type="submit" value="{{ 'Delete'| trans }}">
+        {{ form_end(delete_form) }}   
+        <a class="btn btn-success" href="{{ path('kindwork_index') }}">{{ 'Back to the list'| trans }}</a>
+    </div>
+
+{% endblock %}

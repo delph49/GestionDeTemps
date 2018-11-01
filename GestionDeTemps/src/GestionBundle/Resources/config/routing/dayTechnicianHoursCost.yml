@@ -1,0 +1,4 @@
+stats_day_technician_hours_cost:
+    path:     /
+    defaults: { _controller: GestionBundle:Intervention:dayTechnicianHoursCost }
+    methods:  [GET]

@@ -1,0 +1,130 @@
+security:
+#   encoder for passwords
+#   encodeur pour les mots de passe
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt         
+#   allows you to specify which roles should be used to manage authorizations
+#   permet d'indiquer quelles sont les rôles que l'on doit utiliser pour gérer les autorisations
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_USER, ROLE_ALLOWED_TO_SWITCH]
+#   to retrieve users and rights associated with each
+#   pour récupérer les utilisateurs et les droits associés à chacun
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+#   Firewall to manage user filtering: authentication
+#   Parefeu pour gèrer le filtrage des utilisateurs: l'authentification
+    firewalls:
+        main:
+#           URL that will trigger the firewall
+#           URL qui va déclencher le parefeu
+            pattern: ^/
+#           indicates that we will use a login form to authenticate ourselves
+#           indique que l'on va utiliser un formulaire de login pour s'authentifier
+            form_login:
+#               user provider used
+#               fournisseur d'utilisateurs utilisé
+                provider:             fos_userbundle
+#               name of the service that manages the hidden field to avoid csrf vulnerabilities
+#               nom du service qui gère le champs caché qui permet d'éviter les failles csrf
+                csrf_token_generator: security.csrf.token_manager
+#               route to login
+#               route pour l'authentification
+                login_path:           fos_user_security_login
+                use_forward:          false
+#               This is the route that the login form must submit to. The firewall  
+#               will intercept any requests (POST requests only, by default) 
+#               to this URL and process the submitted login credentials.
+#               Il s'agit de la route que le formulaire de connexion doit suivre. 
+#               Le pare-feu interceptera toutes les demandes (demandes POST seulement,
+#               par défaut) à cette URL et traitera les informations d'identification soumises.
+                check_path:           fos_user_security_check
+#               route after failed login ( null by default, login route)
+#               route après échec de l'authentification (null par défaut, fos_user_security_login)
+                failure_path:         null
+#               route after successful login
+#               route après authentification réussie
+                default_target_path:  login_ok
+#               To activate remember_me
+#               Pour activer remeber_me ( se souvenir de moi)
+                remember_me:          true
+#           The value used to encrypt the cookie's content. It's common to use the secret value 
+#           defined in the APP_SECRET environment variable.
+#           La valeur utilisée pour crypter le contenu du cookie. Il est courant d'utiliser la 
+#           valeur "secret" définie dans la variable d'environnement APP_SECRET.
+            remember_me:
+                secret:      '%secret%'
+#               time in seconds, here 1 week
+#               temps en secondes, ici 1 semaine
+                lifetime: 604800
+#               The path where the cookie associated with this feature is used. 
+#               By default the cookie will be applied to the entire website.
+#               Le chemin d'accès où le cookie associé à cette fonction est utilisé. 
+#               Par défaut, le cookie sera appliqué à l'ensemble du site.
+                path:     /
+#               The domain where the cookie associated with this feature is used. 
+#               By default cookies use the current domain obtained from $_SERVER.
+#               Le domaine dans lequel le cookie associé à cette fonctionnalité est utilisé. 
+#               Par défaut, les cookies utilisent le domaine courant obtenu à partir de $_SERVER.
+                domain:   ~
+#           logout management
+#           gestion de la déconnexion
+            logout:
+#               route to logout
+#               route pour la déconnexion
+                path:       fos_user_security_logout
+#               route after logout
+#               route après déconnexion
+                target:     /homepage
+#           If true this option makes Symfony to trigger a logout when the user has changed. 
+#           Not doing that is deprecated, so this option should be set to true to avoid getting deprecation messages.
+#           Si "true" cette option oblige Symfony à déclencher une déconnexion lorsque l'utilisateur a changé. 
+#           Ne pas le faire est obsolète, cette option doit donc être définie sur true pour éviter les messages de dépréciations
+            logout_on_user_change: true
+#           allows anonymous people to benefit from the firewall
+#           permet aux anonymes de bénéficier du parefeu
+            anonymous: true
+#           To switch to another user. Here, only ROLE_SUPER_ADMIN has this 
+#           right thanks to ROLE_ALLOWED_TO_SWITCH added above
+#           Pour passer à un autre utilisateur. Ici, seul ROLE_SUPER_ADMIN 
+#           a ce droit grâce à ROLE_ALLOWED_TO_SWITCH ajouté plus haut
+            switch_user: true
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+#   list of URLs that will meet access conditions depending on the role of 
+#   the user who has logged in or not
+#   liste d'URL qui vont répondre à des conditions d'accès en fonction du 
+#   rôle de l'utilisateur qui s'est connecté ou non
+    access_control:
+#       Login route. role: IS_AUTHENTICATED_ANONYMOUSLY: means that any 
+#       user who arrives on this page is considered anonymous 
+#       and can therefore access the URL in question.
+#       route pour se logguer. role: IS_AUTHENTICATED_ANONYMOUSLY: 
+#       signifie que tout utilisateur 
+#       qui arrive sur cette page est considéré comme anonyme 
+#       et peuvent donc accèder à l'URL en question.
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#       route to reset the password
+#       route pour réinitialiser le mot de passe
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#       route to create an account. role: ROLE_ADMIN because he's the one who's 
+#       going to create the accounts
+#       route pour créer un compte. role: ROLE_ADMIN parce que c'est lui qui 
+#       va créer les comptes
+        - { path: ^/register, role: ROLE_ADMIN }
+#       the others access
+#       les autres accès:
+        - { path: ^/login_ok, role: ROLE_USER }  
+        - { path: ^/intervention, role: ROLE_USER }
+        - { path: ^/groupplace, role: ROLE_ADMIN }
+        - { path: ^/kindwork, role: ROLE_ADMIN }
+        - { path: ^/laborcost, role: ROLE_ADMIN }
+        - { path: ^/materialcost, role: ROLE_ADMIN }
+        - { path: ^/place, role: ROLE_ADMIN }
+        - { path: ^/technician, role: ROLE_ADMIN }
+        - { path: ^/typeintervention, role: ROLE_ADMIN }
+        - { path: ^/user, role: ROLE_ADMIN }
+        - { path: ^/stat, role: ROLE_USER }
+        - { path: ^/profile, role: ROLE_USER }      

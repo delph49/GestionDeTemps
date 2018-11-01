@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+    <br/>
+    <h4>{{ 'Page not found'|trans }}</h4>
+    <br/>
+    <p>
+        La page demandée n'a pas pu être localisée.
+        <br/><br/>
+        <a href="{{ path('homepage') }}">{{ 'Return to the homepage'|trans }}</a>
+    </p>
+    </div>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">  
+        <h4>{{'Table of investment labor costs by intervention and place'|trans}}</h4>
+        <p>Attention ce tableau contient toutes les années, si vous voulez une année en particulier, mettez là dans la barre de recherche.</p>
+        <p>Le bouton "Imprimer" ne fonctionne pas pour Edge, veuillez passer par PDF.</p>
+        <table id="investInterPlaceKindWork"  class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>{{'Year'|trans}}</th>
+                    <th>{{'Intervention'}}</th>
+                    <th>{{'Place'|trans}}</th>
+                    <th>{{'Kind Work'|trans}}</th>
+                    <th>{{'Total labor cost'|trans}}</th>
+                    <th>{{'Comments'|trans}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for intervention in interventions %}
+                    <tr>
+                        <td>{{ intervention.year }}</td>
+                        <td>{{ intervention.id }}</td>
+                        <td>{{ intervention.titlePlace }}</td>
+                        <td>{{ intervention.titleKindWork }}</td>
+                        <td>{{ intervention.totalLaborCost }}</td>
+                        <td>{{ intervention.comments }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>{{'Total'|trans}}</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div> 
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        {#  Javascript function to initialize the DataTables to sort my table with translation in French 
+        and deactivation search on some columns for not entry in conflict with the other column  #}
+        {#  Fonction Javascript pour initialiser le tri DataTables avec traduction en français et désactivation 
+        de la fonction recherche sur certaines colonnes pour ne pas entrer en conflit avec la recherche sur les autres colonnes  #}
+            $(document).ready(function () {
+        {# For the sorting to be done on the French date and not on the American date/
+         Pour que le tri se fasse sur la date française et non pas sur la date américaine #}
+                 var table = $('#investInterPlaceKindWork').DataTable({
+        {# To have the sums of the columns/Pour avoir les sommes des colonnes du tableau #}
+                    "footerCallback": function () {
+                        var api = this.api();
+                        // Remove the formatting to get integer data for summation
+                        var intVal = function (i) {
+                            return typeof i === 'string' ?
+                                    i.replace(/[\$,]/g, '') * 1 :
+                                    typeof i === 'number' ?
+                                    i : 0;
+                        };
+                        //Total labor cost over the search
+                        totalLaborCost = api
+                                .column(4, {search: 'applied'})
+                                .data()
+                                .reduce(function (a, b) {
+                                    return intVal(a) + intVal(b);
+                                }, 0);
+        {# To round to 4 digits after the decimal point and display it at the footer of the board/
+        Pour arrondir à 4 chiffres après la virgule et l'afficher au pied du tableau #}
+                        // Update footer
+                        $(api.column(4).footer()).html(
+                                Math.round(totalLaborCost * 10000) / 10000);
+                    },
+        {# To have the buttons csv, pdf, print, search (f), length changing input control (l), info (i) and next-previous (p). (t) table. (B) it's the buttons /
+        Pour avoir les boutons CSV, PDF, Imprimer, recherche (f), nombre de lignes par page (l), "Affichage de l'élement _START_ à _END_ sur _TOTAL_ éléments" (i)
+        et suivant-précédent (p). Le (t) c'est le tableau. (B) ce sont les boutons #}
+                    dom: "Blftrip",
+                    buttons: [{
+                            extend: 'csv',
+                            footer: true,
+        {# To have UTF-8 in the CSV/Pour avoir UTF-8 dans le CSV #}
+                            charset: 'UTF-8',
+                            fieldSeparator: ';',
+                            bom: true}, {
+                            extend: 'pdf',
+                            footer: true
+                        }, {
+                            extend: 'print',
+                            footer: true,
+                            text: 'Imprimer'
+                        }],
+        {# To deactivate the search function on column 11, 12, 13 and 14/ Pour désactiver la fonction rechercher sur les colonnes 11, 12, 13 et 14#}
+                    "aoColumnDefs": [
+                        {"bSearchable": false, "aTargets": [3, 4, 5]}],
+        {# To have the dates sort descending when you arrive on the page/ Pour avoir les dates trier de façon descendante quand on arrive sur la page#}
+                    "order": [0, 'desc'],
+        {# To have 50 lines per page in the table/Pour avoir 50 lignes par page dans le tableau#}
+                    pageLength: 50,
+        {# To have the traduction in French/ Pour avoir la traduction en français#}
+                    language: {
+                        processing: "Traitement en cours...",
+                        search: "Rechercher:",
+                        lengthMenu: "Afficher _MENU_ éléments",
+                        info: "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+                        infoEmpty: "Affichage de l'élément 0 à 0 sur 0 éléments",
+                        infoFiltered: "(filtré de _MAX_ éléments au total)",
+                        infoPostFix: "",
+                        loadingRecords: "Chargement en cours...",
+                        zeroRecords: "Aucun élément à afficher",
+                        emptyTable: "Aucune donnée disponible dans le tableau",
+                        paginate: {
+                            first: "Premier",
+                            previous: "Précédent",
+                            next: "Suivant",
+                            last: "Dernier"
+                        },
+                        aria: {
+                            sortAscending: ": activer pour trier la colonne par ordre croissant",
+                            sortDescending: ": activer pour trier la colonne par ordre décroissant"
+                        }
+                    }
+                });
+            });
+    </script>
+{% endblock %}

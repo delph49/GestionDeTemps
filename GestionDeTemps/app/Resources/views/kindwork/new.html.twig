@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h4>{{ 'Kind work creation'| trans }}</h4>
+        <p>Le coût de main d'oeuvre associé au type de travail doit être créé avant.</p>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input class="btn btn-success" type="submit" value="{{ 'Create'| trans }}" />
+        {{ form_end(form) }}
+        <a class="btn btn-success" href="{{ path('kindwork_index') }}">{{ 'Back to the list'| trans }}</a>
+    </div>
+
+{% endblock %}

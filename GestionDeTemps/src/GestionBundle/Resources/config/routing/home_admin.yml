@@ -1,0 +1,4 @@
+home_admin:
+    path:     /
+    defaults: { _controller: "GestionBundle:Default:adminPage" }
+    methods:  [GET, POST]

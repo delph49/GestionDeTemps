@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class= "container-fluid" id="interventionIndexPage">
+        <h4>{{'Interventions list'|trans}}</h4>
+        <p><a class="btn btn-success" href="{{ path('intervention_new') }}">{{'Create a new intervention'|trans}}</a></p>
+        <table id="interventionIndex" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>{{'Technician'|trans}}</th>
+                    <th>{{'Intervention date'|trans}}</th>
+                    <th>{{'Week number'|trans}}</th>
+                    <th>{{'Number hours'|trans}}</th>
+                    <th>{{'Group Place'|trans}}</th> 
+                    <th>{{'Place'|trans}}</th>
+                    <th>{{'Type of Intervention'|trans}}</th>
+                    <th>{{'Kind Work'|trans}}</th>
+                    <th>{{'Kind labor cost'|trans}}</th>
+                    <th>{{'Labor Cost'|trans}}</th> 
+                    <th>{{'Material Cost'|trans}}</th>
+                    <th>{{'Comments'|trans}}</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for intervention in interventions %}
+                    <tr>
+                        <td>{{ intervention.technician }}</td>
+                        <td>{% if intervention.interventionDate %}{{ intervention.interventionDate|date('d-m-Y') }}{% endif %}</td>
+                        <td>{{ intervention.weekNumber }}</td>
+                        <td>{{ intervention.numberHours }}</td>
+                        <td>{% if intervention.places %}{{ intervention.places.groupsPlaces }}{% endif %}</td>
+                        <td>{{ intervention.places }}</td>
+                        <td>{{ intervention.typeIntervention }}</td>
+                        <td>{{ intervention.kindWork }}</td>
+                        <td>{{ intervention.kindWork.laborCost }}</td> 
+                        <td>{% if intervention.kindWork.laborCost %} {{ intervention.kindWork.laborCost.laborCost }}{% endif %}</td>
+                        <td>{{ intervention.totalMaterialCost }}</td>
+                        <td>{{ intervention.comments }}</td>
+                        <td>
+                            <a href="{{ path('intervention_show', { 'id': intervention.id }) }}">{{'Show'|trans}}</a>
+                            ou
+                            <a href="{{ path('intervention_edit', { 'id': intervention.id }) }}">{{'Edit'|trans}}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Total</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th> 
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th> 
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        {#  Javascript function to initialize the DataTables to sort my table  #}
+        {#  Fonction Javascript pour initialiser le tri de mon tableau avec DataTables  #}
+            $(document).ready(function () {
+        {# For the sorting to be done on the French date and not on the American date/
+        Pour que le tri se fasse sur la date française et non pas sur la date américaine #}
+                $.fn.dataTable.moment('DD-MM-YYYY');
+                var table = $('#interventionIndex').DataTable({
+        {# To round to 3 digits after the decimal point and display it at the footer of the board/
+         Pour arrondir à 3 chiffres après la virgule et l'afficher au pied du tableau #}
+                     "footerCallback": function (row, data, start, end, display) {
+                         var api = this.api(), data;
+                         // Remove the formatting to get integer data for summation
+                         var intVal = function (i) {
+                             return typeof i === 'string' ?
+                                     i.replace(/[\$,]/g, '') * 1 :
+                                     typeof i === 'number' ?
+                                     i : 0;
+                         };
+                         //Total hours over the search
+                         totalHours = api
+                                 .column(3, {search: 'applied'})
+                                 .data()
+                                 .reduce(function (a, b) {
+                                     return intVal(a) + intVal(b);
+                                 }, 0);
+        {# To round to 2 digits after the decimal point/Pour arrondir à 2 chiffres après la virgule #}
+                        // Update footer
+                        $(api.column(3).footer()).html(
+                                Math.round(totalHours * 100) / 100);
+                    },
+        {#to have the dates sort descending when you arrive on the page/ Pour avoir les dates trier de façon descendante quand on arrive sur la page#}
+                    "order": [1, 'desc'],
+        {#to deactivate the search function on column 5/ Pour désactiver la fonction rechercher sur les colonnes 5#}
+                    "aoColumnDefs": [
+                        {"bSearchable": false, "aTargets": [3, 9, 10, 11]}],
+        {#To have 50 lines per page in the table/Pour avoir 50 lignes par page dans le tableau#}
+                    pageLength: 50,
+        {#To have the traduction in French/ Pour avoir la traduction en français#}
+                    language: {
+                        processing: "Traitement en cours...",
+                        search: "Rechercher:",
+                        lengthMenu: "Afficher _MENU_ éléments",
+                        info: "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+                        infoEmpty: "Affichage de l'élément 0 à 0 sur 0 éléments",
+                        infoFiltered: "(filtré de _MAX_ éléments au total)",
+                        infoPostFix: "",
+                        loadingRecords: "Chargement en cours...",
+                        zeroRecords: "Aucun élément à afficher",
+                        emptyTable: "Aucune donnée disponible dans le tableau",
+                        paginate: {
+                            first: "Premier",
+                            previous: "Précédent",
+                            next: "Suivant",
+                            last: "Dernier"
+                        },
+                        aria: {
+                            sortAscending: ": activer pour trier la colonne par ordre croissant",
+                            sortDescending: ": activer pour trier la colonne par ordre décroissant"
+                        }
+                    }
+                });
+            });
+    </script>
+{% endblock %}
+

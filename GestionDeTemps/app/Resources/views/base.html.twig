@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+    <head>
+        {# Specify the character encoding for the HTML document 
+        Spécifiez le codage de caractères pour le document HTML#}
+        <meta charset="UTF-8"/>
+        {# Responsive meta tag #}
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}Gestion de temps{% endblock %}</title>
+        {# To use flatty theme Bootstrap/Pour utiliser theme flatty de Bootstrap #}
+        <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
+        {# To use dataTables/Pour utiliser dataTables #}       
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.4/css/buttons.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css"> 
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.6/css/select.bootstrap4.css"/>
+        {# To use my CSS/Pour utiliser mon CSS #}
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+    {% block stylesheets %}{% endblock %}   
+</head>
+
+<body>
+    {# To use jquery, javascript and Poppers.js: jQuery first, then Popper.js, then Bootstrap JS/ 
+    Pour utiliser jquery, javascript et Poppers.js: jQuery en 1er, puis Popper, puis Bootstrap JS #}
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    {# To use dataTables/Pour utiliser dataTables #}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.js"></script>      
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.4/js/dataTables.buttons.js"></script>  
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.4/js/buttons.flash.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.4/js/buttons.html5.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.4/js/buttons.print.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.js"></script>    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.js"></script>   
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/select/1.2.6/js/dataTables.select.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>   
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        {# To have the good page in function of the role/Pour avoir la bonne page en fonction du rôle #}
+        {% if is_granted('ROLE_ADMIN')%}
+            <a class="navbar-brand" href="{{ path('login_ok') }}">{{ 'Access the admin area'|trans }}</a>
+        {% elseif is_granted('ROLE_USER')%} 
+            <a class="navbar-brand" href="{{ path('login_ok') }}">{{ 'Access user space'|trans }}</a>
+        {% endif %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    {# To have the link of profile depending on whether he is connected or not/ Pour avoir le lien du profil selon si il est connecté ou non #}
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <a class="nav-link" href="{{ path('fos_user_profile_show') }}">{{ 'My profile'|trans({}) }}</a>    
+                    {% endif %}  
+                </li>
+                {% if is_granted('ROLE_ADMIN')%}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Choisissez une activité
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="{{ path('user_index') }}">{{ 'Manage users'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('technician_index') }}">{{ 'Manage technicians'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('intervention_index') }}">{{ 'Manage interventions'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('place_index') }}">{{ 'Manage places'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('groupplace_index') }}">{{ 'Manage groups'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('kindwork_index') }}">{{ 'Manage kinds of work'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('typeintervention_index') }}">{{ 'Manage types of intervention'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('laborcost_index') }}">{{ 'Manage labor costs'|trans }}</a>
+                        </div>
+                    {% elseif is_granted('ROLE_USER')%}   
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Choisissez une activité
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="{{ path('intervention_new') }}">{{ 'Create an intervention'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('summary_table') }}">{{ 'Summary table'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('stats_week_technician') }}">{{ 'Table of time spent per week and per technician'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('stats_day_technician_hours_cost') }}">{{ 'Table of time spent and labor costs per day and per technician'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('stats_group_type_inter') }}">{{ 'Table of time spent, material cost and labor costs by type of intervention and by group'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('stats_invest_inter_place_kind_work') }}">{{ 'Table of investment labor costs by intervention and place'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('stats_kind_work_place_cost') }}">{{ 'Table of material costs, labor costs by place and kind of work'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('stats_kind_work_technician') }}">{{ 'Table of time spent by kind of work and by technician'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('stats_kind_work_technician_week') }}">{{ 'Table of time spent by kind of work, by week and by technician'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('stats_place_kind_work_week') }}">{{ 'Table of time spent and costs per place, per week and per kind of work'|trans }}</a>
+                        </div>                   
+                    {% else %}
+                        <p><a href="{{ path('fos_user_security_login') }}">{{ 'Access user space'|trans }}</a></p>
+                {% endif %} <li class="nav-item">
+                    {# To have login or logout depending on whether he is connected or not/ Pour avoir connexion/déconnexion selon si il est connecté ou non #}
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <a class="nav-link" href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
+                    {% else %}
+                        <a class="nav-link" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                    {% endif %}  
+                </li>
+            </ul>
+        </div>
+    </nav>                      
+{% block body %}{% endblock %}
+{% block javascripts %}{% endblock %}
+</body>
+</html>
+
+

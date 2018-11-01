@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container"> 
+        <h4>{{ 'Intervention edit'| trans }}</h4>  
+        {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input class="btn btn-success" type="submit" value="{{ 'Edit'| trans }}" />
+        {{ form_end(edit_form) }}    
+        {{ form_start(delete_form) }}
+        <input class="btn btn-success" type="submit" value="{{ 'Delete'| trans }}">
+        {{ form_end(delete_form) }}         
+        <a class="btn btn-success" href="{{ path('intervention_index') }}">{{ 'Back to the list'| trans }}</a>  
+    </div>
+
+{% endblock %}

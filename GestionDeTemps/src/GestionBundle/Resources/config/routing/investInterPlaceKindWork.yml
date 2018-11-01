@@ -1,0 +1,4 @@
+stats_invest_inter_place_kind_work:
+    path:     /
+    defaults: { _controller: GestionBundle:Intervention:investInterPlaceKindWork }
+    methods:  [GET, POST]

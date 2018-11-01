@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h4>{{ 'Groupplace'|trans }}</h4>
+        <p>Pour actif: 1 pour Oui et 0 ou rien pour Non.</p>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>{{ 'Titlegroup'|trans }}</th>
+                    <td>{{ groupPlace.titleGroup }}</td>
+                </tr>
+                <tr>
+                    <th>{{ 'Info active group place'|trans }}</th>
+                    <td>{{ groupPlace.infoActiveGroupPlace }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <a class="btn btn-success" href="{{ path('groupplace_edit', { 'id': groupPlace.id }) }}">{{ 'Edit'|trans }}</a>
+        {{ form_start(delete_form) }}
+        <input class="btn btn-success" type="submit" value="{{ 'Delete'|trans }}">
+        {{ form_end(delete_form) }}
+        <a class="btn btn-success" href="{{ path('groupplace_index') }}">{{ 'Back to the list'|trans }}</a>
+    </div>
+
+{% endblock %}

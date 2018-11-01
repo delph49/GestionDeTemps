@@ -1,0 +1,4 @@
+finish_registration:
+    path:     /
+    defaults: { _controller: GestionBundle:FinishRegistration:finishRegistration }
+    methods:  [GET, POST]

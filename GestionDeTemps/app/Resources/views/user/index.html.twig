@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">       
+        <h4>{{ 'Users list'|trans }}</h4>        
+        <a class="btn btn-success" href="{{ path('fos_user_registration_register') }}">{{ 'Create a new user'|trans }}</a>
+        <p>Pour activé: 1 pour oui et rien ou 0 pour non</p>        
+        <table id="userIndex" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>{{ 'Username'|trans }}</th>
+                    <th>{{ 'Email'|trans }}</th>
+                    <th>{{ 'Role'|trans }}</th>
+                    <th>{{ 'Enabled'|trans }}</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.username}}</td>
+                        <td>{{ user.email}}</td>
+                        <td>{{ user.roles[0] }}</td>
+                        <td>{{ user.enabled }}</td>
+                        <td>
+                            <a href="{{ path('user_show', { 'id': user.id }) }}">{{ 'Show'|trans }}</a>
+                            ou
+                            <a href="{{ path('user_edit', { 'id': user.id }) }}">{{ 'Edit'|trans }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>              
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('#userIndex').DataTable({
+        {# To have the buttons search (f), length changing input control (l), info (i) and next-previous (p). (t) table. /
+        Pour avoir les boutons CSV, PDF, Imprimer, recherche (f), nombre de lignes par page (l), "Affichage de l'élement _START_ à _END_ sur _TOTAL_ éléments" (i)
+        et suivant-précédent (p). Le (t) c'est le tableau. #}
+                    dom: "lftrip",
+        {# To deactivate the search function on column 11, 12, 13 and 14/ Pour désactiver la fonction rechercher sur les colonnes 11, 12, 13 et 14 #}
+                    "aoColumnDefs": [
+                        {"bSearchable": false, "aTargets": [3, 4]}],
+        {# To have the dates sort descending when you arrive on the page/ Pour avoir les dates trier de façon descendante quand on arrive sur la page #}
+                    "order": [0, 'desc'],
+        {# To have 50 lines per page in the table/Pour avoir 50 lignes par page dans le tableau #}
+                    pageLength: 50,
+        {# To have the traduction in French/ Pour avoir la traduction en français #}
+                    language: {
+                        processing: "Traitement en cours...",
+                        search: "Rechercher:",
+                        lengthMenu: "Afficher _MENU_ éléments",
+                        info: "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+                        infoEmpty: "Affichage de l'élément 0 à 0 sur 0 éléments",
+                        infoFiltered: "(filtré de _MAX_ éléments au total)",
+                        infoPostFix: "",
+                        loadingRecords: "Chargement en cours...",
+                        zeroRecords: "Aucun élément à afficher",
+                        emptyTable: "Aucune donnée disponible dans le tableau",
+                        paginate: {
+                            first: "Premier",
+                            previous: "Précédent",
+                            next: "Suivant",
+                            last: "Dernier"
+                        },
+                        aria: {
+                            sortAscending: ": activer pour trier la colonne par ordre croissant",
+                            sortDescending: ": activer pour trier la colonne par ordre décroissant"
+                        }
+                    }
+                });
+            });
+    </script>
+{% endblock %}

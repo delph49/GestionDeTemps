@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h4>{{ 'Technician'|trans }}</h4>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>{{ 'Last name'|trans }}</th>
+                    <th>{{ 'First name'|trans }}</th>
+                    <th>{{ 'Phone number'|trans }}</th>
+                    <th>{{ 'Date begin'|trans }}</th>
+                    <th>{{ 'Date end'|trans }}</th>
+                    <th>{{ 'Trades'|trans }}</th>
+                    <th>{{ 'Info active technician'|trans }}</th>
+                </tr>
+                <tr>
+                    <td>{{ technician.lastName }}</td>               
+                    <td>{{ technician.firstName }}</td>
+                    <td>{{ technician.phoneNumber }}</td>
+                    <td>{% if technician.dateBegin %}{{ technician.dateBegin|date('Y-m-d') }}{% endif %}</td>
+                    <td>{% if technician.dateEnd %}{{ technician.dateEnd|date('Y-m-d') }}{% endif %}</td>
+                    <td>{{ technician.trades }}</td>
+                    <td>{{ technician.infoActiveTechnician }}</td>
+                </tr>            
+            </tbody>
+        </table>   
+        <p>Pour activé: 1 pour Oui et 0 ou rien pour Non.</p>
+        <a class="btn btn-success" href="{{ path('technician_edit', { 'id': technician.id }) }}">{{'Edit'|trans}}</a>
+        <p>Attention la suppression d'un technicien ne sera pas possible s'il est lié à une ou plusieurs interventions. Dans ce cas, désactivez-le, ainsi il n'apparaîtra plus dans les choix lors de la création d'une intervention, mais sera toujours accessible pour les tableaux statistiques.</p>
+        {{ form_start(delete_form) }}
+        <input class="btn btn-success" type="submit" value="{{'Delete'|trans}}">
+        {{ form_end(delete_form) }}
+        <a class="btn btn-success" href="{{ path('technician_index') }}">{{'Back to the list'|trans}}</a>
+    </div>
+        
+{% endblock %}

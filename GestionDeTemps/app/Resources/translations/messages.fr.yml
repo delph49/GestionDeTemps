@@ -1,0 +1,130 @@
+Access Denied: Accès refusé
+Access user space: Accéder à l'espace utilisateur
+Access the admin area: Accéder à l'espace administrateur
+Back to the list: Retour à la liste
+Choose a technician: Choisissez un technicien
+Comments: Commentaires
+Create: Créer
+Create a new groupPlace: Créer un groupe
+Create a new kindWork: Créer un type de travail
+Create a new intervention: Créer une nouvelle intervention
+Create a new labor cost: Créer un nouveau coût de main d'oeuvre
+Create a new material cost: Créer un nouveau coût matériel
+Create a new place: Créer un lieu
+Create a new technician: Créer un technicien
+Create a new type intervention: Créer une nouvelle nature d'interventions
+Create a new user: Créer un nouvel utilisateur
+Create an intervention: Créer une intervention
+Date begin: Date de début
+Date end: Date de fin
+Day: Jour
+Delete: Supprimer
+Edit: Modifier
+Enabled: Activé
+First name: Prénom
+Groupplaces list: Liste des groupes
+Groupplace creation: Création de groupe
+Groupplace: Groupe
+Group Place: Groupe
+Groups places: Groupe
+Groupplace edit: Modifier le groupe
+Info active groupe place: Actif
+Info active group place: Actif
+Info active kind work: Actif
+Info active labor cost: Actif
+Info active place: Actif
+Info Active Place: Actif
+Info active technician: Actif
+Info active type intervention: Actif
+Interventions list: Liste des interventions
+Intervention edit: Modifier une intervention
+Intervention date: Date intervention
+Intervention creation: Créer une intervention
+Investment cost: Coût Investissement
+Kind labor cost: Type M.O.
+Kind Work: Type travaux
+Kind work: Type travaux
+Kind work creation: Créer un type de travail
+Kind work edit: Modifier le type de travail
+Kind works list: Liste des types de travaux
+Labor cost creation: Créer un coût de main d'oeuvre
+Labor cost edit: Modifier un coût de main d'oeuvre
+Labor cost: Coût M.O.
+Labor Cost: Tarif horaire M.O.
+Labor costs list: Liste des coûts de main d'oeuvre
+Last name: Nom
+layout:
+    logout: Déconnexion
+    login: Connexion
+Manage users: Gérer les utilisateurs
+Manage technicians: Gérer les techniciens
+Manage interventions: Gérer les interventions
+Manage places: Gérer les lieux
+Manage groups: Gérer les groupes
+Manage kinds of work: Gérer les types de travaux
+Manage types of intervention: Gérer les types d'intervention
+Manage labor costs: Gérer les coûts de main d'oeuvre
+Manage material costs: Gérer les coûts matériaux
+Material Cost: Coût matériel
+Material cost: Coût matériel
+Material cost creation: Créer un coût matériel
+Material cost edit: Modifier un coût matériel
+Material costs list: Liste des coûts matériaux
+Month: Mois
+My profile: Mon profil
+Number hours: Nb heures
+Page not found: Page non trouvée
+Phone number: Téléphone
+Place: Lieu
+Place creation: Créer un lieu
+Place edit: Modifier le lieu
+Places: Lieux
+Places list: Liste des lieux
+Return to the homepage: Retourner à la page d'accueil
+Return to the menu: Retourner au menu
+Role: Rôle
+Roles: Rôles
+Running cost: Coût fonctionnement
+Show: Voir
+Summary table: Tableau récapitulatif
+Summary table of: Récapitulatif de 
+Table of time spent per week and per technician: Temps passé  par semaine et par technicien
+Table of time spent and costs per place, per week and per kind of work: Temps passé et coûts par lieu, par semaine et par type de travaux
+Table of time spent and labor costs per day and per technician: Temps passé et coûts M.O. par jour et par technicien
+Table of time spent, material cost and labor costs by type of intervention and by group: Temps passé, coût matériel et coûts M.O. par type d'intervention et par groupe
+Table of investment labor costs by intervention and place: Coûts M.O. d'investissement par intervention et par lieu
+Table of material costs, labor costs by place and kind of work: Coût matériel, coût M.O. par lieu et par type de travaux
+Table of interventions by group and type of intervention: Interventions par groupe et par type d'intervention
+Table of time spent by kind of work and by technician: Temps passé par type de travaux et par technicien
+Table of time spent by kind of work, by week and by technician: Temps passé par type de travaux, par semaine et par technicien
+Technician: Technicien
+Technician creation: Créer un technicien
+Technician edit: Modifier un technicien
+Technicians list: Liste des techniciens
+Technician's lastname: Nom du technicien
+Technician's firstname: Prénom du technicien
+The stats: Les statistiques
+Titlegroup: Libellé du groupe
+Title group: Groupe
+Title kind work: Type de travaux
+Title place: Lieu
+Title type intervention: Nature intervention
+Total: Total
+Totals: Totaux
+Total cost: Coût total
+Total labor cost: Coût total M.O.
+Total material cost: Coût matériel total
+Total number hours: Total nombre d'heures
+Trades: Corps de métier
+Type of Intervention: Nature intervention
+Type intervention: Nature intervention
+Type intervention creation: Créer une nature d'interventions
+Type intervention edit: Modifier la nature d'interventions
+Type interventions list: Liste des natures d'interventions
+User: Utilisateur
+User creation: Créer un utilisateur
+User edit: Modifier un utilisateur
+Users list: Liste des utilisateurs
+Username: Nom d'utilisateur
+Week number: Semaine
+Year: Année

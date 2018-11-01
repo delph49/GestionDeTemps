@@ -1,0 +1,6 @@
+stats_group_type_inter:
+    path:     /
+    defaults: { _controller: GestionBundle:Intervention:groupTypeInter }
+    methods:  [GET, POST]
+    
+

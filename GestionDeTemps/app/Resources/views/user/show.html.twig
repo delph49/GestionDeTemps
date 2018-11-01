@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h4>{{ 'User'|trans }}</h4>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>{{ 'Username'|trans }}</th>
+                    <th>{{ 'Email'|trans }}</th>
+                    <th>{{ 'Rôles'|trans }}</th>
+                    <th>{{ 'Enabled'|trans }}</th>
+                </tr>
+                <tr>
+                    <td>{{ user.username}}</td>
+                    <td>{{ user.email}}</td>
+                    <td>{{ user.roles[0] }}</td>
+                    <td>{{ user.enabled }}</td>
+                </tr>       
+            </tbody>
+        </table>
+        <p>Pour activé: 1 pour oui et rien ou 0 pour non</p>
+        <a class="btn btn-success" href="{{ path('user_edit', { 'id': user.id }) }}">{{ 'Edit'|trans }}</a>
+        {{ form_start(delete_form) }}
+        <input class="btn btn-success" type="submit" value="{{ 'Delete'|trans }}">
+        {{ form_end(delete_form) }}
+        <a class="btn btn-success" href="{{ path('user_index') }}">{{ 'Back to the list'|trans }}</a>
+    </div>
+        
+{% endblock %}
+

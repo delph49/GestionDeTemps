@@ -1,0 +1,4 @@
+stats_kind_work_technician:
+    path:     /
+    defaults: { _controller: GestionBundle:Intervention:kindWorkTechnician }
+    methods:  [GET, POST]

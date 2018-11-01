@@ -1,0 +1,4 @@
+login_ok:
+    path:     /
+    defaults: { _controller: "GestionBundle:Default:showInfoPerson" }
+    methods:  [GET, POST]

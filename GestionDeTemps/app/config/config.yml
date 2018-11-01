@@ -1,0 +1,188 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: "@GestionBundle/Resources/config/services.yml" }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    # local language here French
+    # langue locale ici le français
+    locale: fr
+
+framework:
+    # Define the default language for the translation service, here the local one therefore French
+    # Définition la langue par défaut pour le service de traduction, ici la locale donc le français
+    translator: { fallbacks: ["%locale%"] }
+    # default language of the user
+    # langue par défaut de l'utilisateur
+    default_locale: '%locale%'
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+    # Specifies the template engine to use
+    # Indique le moteur de template à utiliser
+    templating:
+        engines: ['twig']
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    # Theme for forms/Thème des formulaires
+    form_themes:
+        - 'bootstrap_4_horizontal_layout.html.twig'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        # linked to the Berbelei bundle in order to be able to use certain functions that are not basic with Doctrine
+        # lié au bundle Berbelei afin de pouvoir utiliser certaines fonctions qui ne sont pas de base avec Doctrine
+        dql:
+            datetime_functions:
+                year: DoctrineExtensions\Query\Mysql\Year
+            numeric_functions:
+                round : DoctrineExtensions\Query\Mysql\Round
+
+# Swiftmailer Configuration
+swiftmailer:
+#   The exact transport method to use to deliver emails
+#   La méthode de transport exacte à utiliser pour envoyer des courriels
+    transport: '%mailer_transport%'
+#   The authentication mode to use when using smtp as the transport. 
+#   Valid values are plain, login, cram-md5, or null.
+#   Le mode d'authentification à utiliser lors de l'utilisation de smtp comme transport. 
+#   Les valeurs valides sont plain, login, cram-md5, ou null.
+    auth_mode: '%mailer_auth_mode%'
+#   The host to connect to when using smtp as the transport.
+#   L'hôte auquel se connecter lors de l'utilisation de smtp comme transport.
+    host: '%mailer_host%'
+#   The port when using smtp as the transport.
+#   This defaults to 465 if encryption is ssl and 25 otherwise.
+#   Le port lors de l'utilisation de smtp comme moyen de transport. 
+#   Cette valeur par défaut est 465 si le cryptage est ssl et 25 sinon.
+    port: '%mailer_port%'
+#   The username when using smtp as the transport. The gmail transport 
+#   is simply a shortcut that uses the smtp transport.
+#   Le nom d'utilisateur lors de l'utilisation de smtp comme moyen de transport. 
+#   Le transport gmail est simplement un raccourci qui utilise le transport smtp.
+    username: '%mailer_user%'
+#   The password when using smtp as the transport.
+#   Le mot de passe lors de l'utilisation de smtp comme moyen de transport.
+    password: '%mailer_password%'
+#   The encryption mode to use when using smtp as the transport. Valid values 
+#   are tls, ssl, or null (indicating no encryption).
+#   Le mode de cryptage à utiliser lors de l’utilisation en smtptant que transport. 
+#   Les valeurs valides sont tls, sslou null((indiquant qu'aucun cryptage)).
+    encryption: '%mailer_encryption%'
+#   stores the emails to memory, the emails only gets sent if the whole request 
+#   got executed without any unhandled exception or any errors
+#   and thus display the next page to the user without waiting for the email to be sent.
+#   type: The method used to store spooled messages. Valid values are memory and file.
+#   spool: stocke les emails en mémoire, ils sont envoyés que si l'intégralité de la 
+#   demande a été exécutée sans exception non gérée ou erreur 
+#   et ainsi afficher la page suivante à l'utilisateur sans attendre l'envoi de l'email.
+#   type: La méthode utilisée pour stocker les messages spoulés. 
+#   Les valeurs valides sont memory et  file. 
+    spool: { type: memory }
+
+# Sensio Configuration
+sensio_framework_extra:
+    request:
+        converters: true
+    router:
+        annotations: false
+    
+# FOSUserBundle Configuration
+fos_user:
+#   The type of datastore used/Le type de banque de données utilisé
+    db_driver: orm 
+#   The firewall name which I configured in security.yml.
+#   Le parefeu que j'ai configuré dans le security.yml.
+    firewall_name: main
+#   The fully qualified class name (FQCN) of the User class.
+#   Le nom de classe complet (FQCN) de la classe utilisateur.
+    user_class: GestionBundle\Entity\User
+#   The email address and sender name to use when the bundle send a registration 
+#   confirmation to the user.
+#   L'adresse e-mail et le nom d'expéditeur à utiliser lors de l'envoi d'une 
+#   confirmation d'inscription à l'utilisateur.
+    from_email:
+        address: '%mailer_user%'
+        sender_name: "GestionDeTemps"
+#   To configure the email service./Pour configurer le service de mails.
+    service:
+        mailer: fos_user.mailer.twig_swift
+#   To configure a user registration.
+#   Pour configurer l'enregistrement d'un utilisateur.
+    registration:
+        confirmation:
+#   Enabling the feature to send a confirmation email when a user registers
+#   Activation de la fonctionnalité d'envoi d'un email de confirmation lorsqu'un 
+#   utilisateur s'inscrit
+            enabled: true
+#   The email address and sender name to use when the bundle send a registration 
+#   confirmation to the user.
+#   L'adresse e-mail et le nom d'expéditeur à utiliser lors de l'envoi d'une 
+#   confirmation d'inscription à l'utilisateur.
+            from_email:
+                address:     'mailer_user'
+                sender_name: Gestion de temps
+#   To say at FOSUserBundle that it will use my form type instead of the default one. 
+#   Pour dire à FOSUserBundle d'utiliser mon form type à la place de celui par défaut.
+        form:
+            type: GestionBundle\Form\RegistrationType
+#   To configure password reset.
+#   Pour configurer la réinitialisation du mot de passe.
+    resetting:
+#   Time in seconds, here 2 hours for retry resetting password
+#   Temps en secondes, ici 2 heures pour retenter de réinitialiser le mot de passe
+        retry_ttl: 7200 
+#   Time in seconds, here 24 hours. It determine the time to live for the token.
+#   Temps en secondes, ici 24 heures. Il détermine le temps de vie du jeton.
+        token_ttl: 86400
+        email:     
+#   The defaults email address and sender name to use when the bundle send a 
+#   reseting link of the password to the user.
+#   L'adresse e-mail et le nom d'expéditeur par défaut à utiliser lors de 
+#   l'envoi d'un lien de réinitialisation du mot de passe à l'utilisateur.
+            from_email:
+                address:        'mailer_user'
+                sender_name:    Gestion de temps
+
+            
+
+        

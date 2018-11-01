@@ -1,0 +1,79 @@
+gestion_groupplace:
+    resource: "@GestionBundle/Resources/config/routing/groupplace.yml"
+    prefix:   /groupplace
+    
+gestion_user:
+    resource: "@GestionBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+    
+gestion_homepage:
+    path:     /
+    defaults: { _controller: GestionBundle:Default:index }
+    
+gestion_good_homepage:
+    resource: "@GestionBundle/Resources/config/routing/homepage.yml"
+    prefix:   /homepage    
+    
+gestion_intervention:
+    resource: "@GestionBundle/Resources/config/routing/intervention.yml"
+    prefix:   /intervention
+
+gestion_kindwork:
+    resource: "@GestionBundle/Resources/config/routing/kindwork.yml"
+    prefix:   /kindwork
+ 
+gestion_laborcost:
+    resource: "@GestionBundle/Resources/config/routing/laborcost.yml"
+    prefix:   /laborcost
+    
+gestion_place:
+    resource: "@GestionBundle/Resources/config/routing/place.yml"
+    prefix:   /place
+    
+gestion_technician:
+    resource: "@GestionBundle/Resources/config/routing/technician.yml"
+    prefix:   /technician
+    
+gestion_typeintervention:
+    resource: "@GestionBundle/Resources/config/routing/typeintervention.yml"
+    prefix:   /typeintervention  
+    
+login_ok:
+    resource: "@GestionBundle/Resources/config/routing/login_ok.yml"
+    prefix:   /login_ok
+    
+summary_table:
+    resource: "@GestionBundle/Resources/config/routing/summary.yml"
+    prefix:   /stat/summary
+    
+stats_week_technician:
+    resource: "@GestionBundle/Resources/config/routing/weekTechnician.yml"
+    prefix:   /stat/weekTechnician
+
+stats_place_kind_work_week:
+    resource: "@GestionBundle/Resources/config/routing/placeKindWorkWeek.yml"
+    prefix:   /stat/placeKindWorkWeek
+    
+stats_day_technician_hours_cost:
+    resource: "@GestionBundle/Resources/config/routing/dayTechnicianHoursCost.yml"
+    prefix:   /stat/dayTechnicianHoursCost
+    
+stats_group_type_inter:
+    resource: "@GestionBundle/Resources/config/routing/groupTypeInter.yml"
+    prefix:   /stat/groupTypeInter
+    
+stats_kind_work_technician:
+    resource: "@GestionBundle/Resources/config/routing/kindWorkTechnician.yml"
+    prefix:   /stat/kindWorkTechnician
+    
+stats_kind_work_technician_week:
+    resource: "@GestionBundle/Resources/config/routing/kindWorkTechnicianWeek.yml"
+    prefix:   /stat/kindWorkTechnicianWeek
+    
+stats_invest_inter_place_kind_work:
+    resource: "@GestionBundle/Resources/config/routing/investInterPlaceKindWork.yml"
+    prefix:   /stat/investInterPlaceKindWork
+    
+stats_kind_work_place_cost:
+    resource: "@GestionBundle/Resources/config/routing/kindWorkPlaceCost.yml"
+    prefix:   /stat/kindWorkPlaceCost

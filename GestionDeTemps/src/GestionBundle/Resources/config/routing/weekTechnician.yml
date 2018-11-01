@@ -1,0 +1,4 @@
+stats_week_technician:
+    path:     /
+    defaults: { _controller: GestionBundle:Intervention:weekTechnician }
+    methods:  [GET, POST]

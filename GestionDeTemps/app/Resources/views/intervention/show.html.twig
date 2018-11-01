@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container"> 
+        <h4>Intervention</h4>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>{{'Technician'|trans}}</th>
+                    <th>{{'Intervention date'|trans}}</th>
+                    <th>{{'Week number'|trans}}</th>
+                    <th>{{'Number hours'|trans}}</th>
+                    <th>{{'Group Place'|trans}}</th>
+                    <th>{{'Place'|trans}}</th>
+                    <th>{{'Type of Intervention'|trans}}</th>
+                    <th>{{'Kind Work'|trans}}</th>
+                    <th>{{'Kind labor cost'|trans}}</th>
+                    <th>{{'Labor Cost'|trans}}</th>  
+                    <th>{{'Material Cost'|trans}}</th>
+                    <th>{{'Comments'|trans}}</th>
+                </tr>
+                <tr>
+                    <td>{{ intervention.technician }}</td>
+                    <td>{% if intervention.interventionDate %}{{ intervention.interventionDate|date('d-m-Y') }}{% endif %}</td>
+                    <td>{{ intervention.weekNumber }}</td>
+                    <td>{{ intervention.numberHours }}</td>
+                    <td>{% if intervention.places %}{{ intervention.places.groupsPlaces }}{% endif %}</td>
+                    <td>{{ intervention.places }}</td>
+                    <td>{{ intervention.typeIntervention }}</td>
+                    <td>{{ intervention.kindWork }}</td>
+                    <td>{{ intervention.kindWork.laborCost }}</td>
+                    <td>{% if intervention.kindWork.laborCost %} {{ intervention.kindWork.laborCost.laborCost }}{% endif %}</td>
+                    <td>{{ intervention.totalMaterialCost }}</td>
+                    <td>{{ intervention.comments }}</td>
+                </tr>            
+            </tbody>
+        </table>
+        <a class="btn btn-success" href="{{ path('intervention_edit', { 'id': intervention.id }) }}">{{'Edit'|trans}}</a>
+        {{ form_start(delete_form) }}
+        <input class="btn btn-success" type="submit" value="{{ 'Delete'|trans }}">
+        {{ form_end(delete_form) }}
+        <a class="btn btn-success" href="{{ path('intervention_index') }}">{{'Back to the list'|trans}}</a>
+        
+    {% endblock %}

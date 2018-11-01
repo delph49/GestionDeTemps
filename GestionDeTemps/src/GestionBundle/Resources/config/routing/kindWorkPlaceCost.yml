@@ -1,0 +1,4 @@
+stats_kind_work_place_cost:
+    path:     /
+    defaults: { _controller: GestionBundle:Intervention:kindWorkPlaceCost }
+    methods:  [GET, POST]
